@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+RUST_CHANNELS=(
+  stable
+  nightly
+)
+
+RUST_DEFAULT_CHANNEL=stable
+
+RUST_APPS=(
+  bat
+  dust
+  cargo-update:cargo-install-update
+  exa
+  du-dust:dust
+  fd-find:fd
+  gitui
+  git-interactive-rebase-tool:interactive-rebase-tool
+  hexed
+  hyperfine
+  licensor
+  mdcat
+  ripgrep:rg
+  tealdeer:tldr
+  tokei
+  ytop
+)
+
+# Install rustup, if not installed
+if ! [ -x "$(command -v rustup)" ]; then
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash
+  source "$HOME/.cargo/env"
+fi
+
+# Install Rust toolchains
+installed_toolchains=$(rustup toolchain list | cut -d'-' -f1)
+for channel in ${RUST_CHANNELS[*]}; do
+  if ! echo "$installed_toolchains" | grep -q "$channel"; then
+    rustup toolchain install "$channel"
+  fi
+done
+
+# Set default toolchain
+default_channel=$(rustup default | cut -d'-' -f1)
+if [ "$default_channel" != "$RUST_DEFAULT_CHANNEL" ]; then
+  rustup default "$RUST_DEFAULT_CHANNEL"
+fi
+
+# Install Rust apps
+for aliased_app in ${RUST_APPS[*]}; do
+  crate=$( echo "$aliased_app" | cut -d':' -f1)
+  binary=$( echo "$aliased_app" | cut -d':' -f2)
+  if ! [ -x "$(command -v "$binary")" ]; then
+    cargo install "$crate"
+  fi
+done

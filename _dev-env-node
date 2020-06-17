@@ -1,0 +1,37 @@
+#!/usr/bin/env zsh
+
+NVM_VERSION=0.35.3
+NVM_DIR="$HOME/.nvm"
+NVM_DEFAULT_PACKAGES_FILE="$NVM_DIR/default_packages"
+
+NODE_VERSIONS=(
+  --lts
+)
+
+NODE_DEFAULT_VERSION="--lts"
+
+GLOBAL_PACKAGES=(
+  bs-platform
+  elm
+  npm-check-updates
+  parcel-bundler
+
+)
+
+if ! [ -z "$(command -v nvm)" ]; then
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
+fi
+
+source "$NVM_DIR/nvm.sh"
+
+# Write default packages file
+[ -f "$NVM_DIR/default_packages" ] && rm "$NVM_DIR/default_packages"
+for global_pkg in ${GLOBAL_PACKAGES[*]}; do
+  echo "$global_pkg" >> "$NVM_DEFAULT_PACKAGES_FILE"
+done
+
+for node_version in ${NODE_VERSIONS[*]}; do
+  nvm install "$node_version"
+done
+
+nvm use $NODE_DEFAULT_VERSION

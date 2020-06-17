@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+banner() {
+  echo "+-------------------------------------+"
+  printf "|`tput bold` %-35s `tput sgr0`|\n" "$@"
+  echo "+-------------------------------------+"
+}
+
+
+banner "Syncing JVM-based dev environment"
+$DIR/_dev-env-jvm
+
+banner "Syncing Rust dev environment"
+$DIR/_dev-env-rust
+
+banner "Syncing Node-based dev environment"
+$DIR/_dev-env-node
+

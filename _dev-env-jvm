@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+COURSIER_DOWNLOAD_URL='https://git.io/coursier-cli-linux'
+COURSIER_TMP="/tmp/cs"
+COURSIER_BIN="cs"
+
+
+COURSIER_APPS=(
+  ammonite
+  coursier
+  cs
+  csbt
+  mill
+  sbt
+  scala
+)
+
+COURSIER_CONTRIB_APPS=(
+  bfg
+)
+
+# Download Coursier to a temporary directory, if not present
+if ! [ -x "$(command -v $COURSIER_BIN)" ]; then
+  curl -fLo $COURSIER_TMP $COURSIER_DOWNLOAD_URL && chmod +x $COURSIER_TMP
+  COURSIER_BIN=$COURSIER_TMP
+fi
+
+
+# Install Coursier apps
+for app in ${COURSIER_APPS[*]}; do
+  $COURSIER_BIN install -q "$app"
+done
+for app in ${COURSIER_CONTRIB_APPS[*]}; do
+  $COURSIER_BIN install -q --contrib "$app"
+done
+
