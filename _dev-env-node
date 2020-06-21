@@ -2,7 +2,7 @@
 
 NVM_VERSION=0.35.3
 NVM_DIR="$HOME/.nvm"
-NVM_DEFAULT_PACKAGES_FILE="$NVM_DIR/default_packages"
+NVM_DEFAULT_PACKAGES_FILE="$NVM_DIR/default-packages"
 
 NODE_VERSIONS=(
   --lts
