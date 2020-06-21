@@ -2,7 +2,6 @@
 
 NVM_VERSION=0.35.3
 NVM_DIR="$HOME/.nvm"
-NVM_DEFAULT_PACKAGES_FILE="$NVM_DIR/default-packages"
 
 NODE_VERSIONS=(
   --lts
@@ -13,6 +12,7 @@ NODE_DEFAULT_VERSION="--lts"
 GLOBAL_PACKAGES=(
   bs-platform
   elm
+  elm-format
   npm-check-updates
   parcel-bundler
 
@@ -24,14 +24,15 @@ fi
 
 source "$NVM_DIR/nvm.sh"
 
-# Write default packages file
-[ -f "$NVM_DIR/default_packages" ] && rm "$NVM_DIR/default_packages"
-for global_pkg in ${GLOBAL_PACKAGES[*]}; do
-  echo "$global_pkg" >> "$NVM_DEFAULT_PACKAGES_FILE"
-done
-
 for node_version in ${NODE_VERSIONS[*]}; do
   nvm install "$node_version"
 done
 
 nvm use $NODE_DEFAULT_VERSION
+
+globally_installed="$(npm ls -g --depth 0)"
+for global_pkg in ${GLOBAL_PACKAGES[*]}; do
+  if ! echo "$globally_installed" | grep -q $global_pkg; then
+    npm i -g "$global_pkg"
+  fi
+done
