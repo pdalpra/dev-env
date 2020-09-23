@@ -10,7 +10,6 @@ RUST_DEFAULT_CHANNEL=stable
 RUST_APPS=(
   bat
   diskonaut
-  dust
   cargo-update:cargo-install-update
   exa
   du-dust:dust
