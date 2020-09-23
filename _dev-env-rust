@@ -47,6 +47,9 @@ if [ "$default_channel" != "$RUST_DEFAULT_CHANNEL" ]; then
   rustup default "$RUST_DEFAULT_CHANNEL"
 fi
 
+# Update toolchains
+rustup update
+
 # Install Rust apps
 for aliased_app in ${RUST_APPS[*]}; do
   crate=$( echo "$aliased_app" | cut -d':' -f1)
