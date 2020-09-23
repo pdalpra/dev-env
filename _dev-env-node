@@ -13,6 +13,8 @@ GLOBAL_PACKAGES=(
   bs-platform
   elm
   elm-format
+  elm-review
+  elm-spa
   npm-check-updates
   parcel-bundler
 
