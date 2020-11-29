@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
 
+SDKMAN_INSTALL_URL="https://get.sdkman.io?rcupdate=false"
 COURSIER_DOWNLOAD_URL='https://git.io/coursier-cli-linux'
 COURSIER_TMP="/tmp/cs"
 COURSIER_BIN="cs"
 
+SDKMAN_APPS=(
+  maven
+  visualvm
+)
 
 COURSIER_APPS=(
   ammonite
@@ -18,6 +23,15 @@ COURSIER_APPS=(
 COURSIER_CONTRIB_APPS=(
   bfg
 )
+
+# Install sdkman
+curl -s $SDKMAN_INSTALL_URL | bash 1>/dev/null
+source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# Install sdkman apps
+for app in ${SDKMAN_APPS[*]}; do
+  sdk default "$app"
+done
 
 # Download Coursier to a temporary directory, if not present
 if ! [ -x "$(command -v $COURSIER_BIN)" ]; then
