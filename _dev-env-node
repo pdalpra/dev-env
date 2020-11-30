@@ -17,7 +17,7 @@ GLOBAL_PACKAGES=(
   elm-spa
   npm-check-updates
   parcel-bundler
-
+  yarn
 )
 
 if [ -z "$(command -v nvm)" ]; then
