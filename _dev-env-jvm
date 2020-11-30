@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  COURSIER_OS_SUFFIX="linux"
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  COURSIER_OS_SUFFIX="macos"
+fi
+
 SDKMAN_INSTALL_URL="https://get.sdkman.io?rcupdate=false"
-COURSIER_DOWNLOAD_URL='https://git.io/coursier-cli-linux'
-COURSIER_TMP="/tmp/cs"
+COURSIER_DOWNLOAD_URL="https://git.io/coursier-cli-${COURSIER_OS_SUFFIX}"
+COURSIER_TMP="$(mktemp -d)/cs"
 COURSIER_BIN="cs"
 
 SDKMAN_APPS=(
