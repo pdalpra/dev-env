@@ -32,11 +32,11 @@ COURSIER_CONTRIB_APPS=(
 
 # Install sdkman
 curl -s $SDKMAN_INSTALL_URL | bash 1>/dev/null
-source "$HOME/.sdkman/bin/sdkman-init.sh"
+source "$SDKMAN_DIR/bin/sdkman-init.sh"
 
 # Install sdkman apps
 for app in ${SDKMAN_APPS[*]}; do
-  sdk default "$app"
+  sdk install "$app"
 done
 
 # Download Coursier to a temporary directory, if not present
